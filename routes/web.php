@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ContactoController;
 use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\Api\EntidadeController;
+use App\Http\Controllers\EntidadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('entidades', EntidadController::class);
+Route::delete('/entidades/{id}', [EntidadController::class, 'destroy']);
+
+
+Route::resource('contactos', ContactoController::class);
+Route::delete('/contactos/{id}', [ContactoController::class, 'destroy']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

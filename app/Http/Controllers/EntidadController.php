@@ -5,31 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Entidad;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class EntidadController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $entidades = Entidad::all();
-        return response()->json($entidades, Response::HTTP_OK);
+        return response()->json($entidades, Response::HTTP_OK)
+                        ->header('Access-Control-Allow-Origin', '*');
+    }
+    public function create()
+    {
+        //
+        return view('entidades.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            
             'nombre' => 'required|string|max:191',
             'nit' => 'required|string|max:191',
             'direccion' => 'nullable|string|max:191',
@@ -45,8 +46,6 @@ class EntidadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -62,10 +61,13 @@ class EntidadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
+
+     public function edit(Entidad $entidad)
+     {
+         //
+         return view('entidad.edit', compact('entidad'));
+     }
     public function update(Request $request, $id)
     {
         $entidad = Entidad::find($id);
